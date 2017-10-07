@@ -36,12 +36,12 @@ shinyServer(function(input, output) {
                (Age == "65-79") * 0.118 + 
                (Age == ">80") * 0.550 -
                3.228)) %>%
-      mutate(POMS_Risk = arm::invlogit(SORT_Logit_Score)) %>%
-      mutate(Low_grade = arm::invlogit(SORT_Logit_Score * 1.008 - 0.316)) %>%
-      mutate(High_grade = arm::invlogit(SORT_Logit_Score * 0.827 - 0.874)) %>%
-      mutate(Day14 = arm::invlogit(SORT_Logit_Score * 0.894 - 1.478)) %>%
-      mutate(Day21 = arm::invlogit(SORT_Logit_Score * 1.081 - 2.327)) %>%
-      mutate(Day28 = arm::invlogit(SORT_Logit_Score * 1.048 - 2.770)) %>%
+      mutate(POMS_Risk = paste0(signif((arm::invlogit(SORT_Logit_Score) * 100), digits = 4),"%")) %>%
+      mutate(Low_grade = paste0(signif((arm::invlogit(SORT_Logit_Score * 1.008 - 0.316) * 100), digits = 4), "%")) %>%
+      mutate(High_grade = paste0(signif((arm::invlogit(SORT_Logit_Score * 0.827 - 0.874) * 100), digits = 4), "%")) %>%
+      mutate(Day14 = paste0(signif((arm::invlogit(SORT_Logit_Score * 0.894 - 1.478) * 100), digits = 4), "%")) %>%
+      mutate(Day21 = paste0(signif((arm::invlogit(SORT_Logit_Score * 1.081 - 2.327) * 100), digits = 4), "%")) %>%
+      mutate(Day28 = paste0(signif((arm::invlogit(SORT_Logit_Score * 1.048 - 2.770) * 100), digits = 4), "%")) %>%
       select(SORT_Logit_Score:Day28)
     
     xtable(tab)
