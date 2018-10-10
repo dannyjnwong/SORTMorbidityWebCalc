@@ -7,13 +7,13 @@
 
 library(shiny)
 library(dplyr)
-library(xtable)
+library(DT)
 
 procedures <- read.csv("SNAP2_procedurelist.csv", stringsAsFactors = FALSE)
 
 shinyServer(function(input, output) {
 
-  output$ProcedureTable <- renderTable({
+  output$ProcedureTable <- renderDT({
 
     tab <- procedures %>% filter(SurgeryProcedure %in% input$Procedure) %>%
       select(SurgeryProcedure, SurgeryProcedureSeverity) %>%
@@ -36,16 +36,30 @@ shinyServer(function(input, output) {
                (Age == "65-79") * 0.118 + 
                (Age == ">80") * 0.550 -
                3.228)) %>%
-      mutate(POMS_Risk = paste0(signif((arm::invlogit(SORT_Logit_Score) * 100), digits = 4),"%")) %>%
-      mutate(Low_grade = paste0(signif((arm::invlogit(SORT_Logit_Score * 1.008 - 0.316) * 100), digits = 4), "%")) %>%
-      mutate(High_grade = paste0(signif((arm::invlogit(SORT_Logit_Score * 0.827 - 0.874) * 100), digits = 4), "%")) %>%
-      mutate(Day14 = paste0(signif((arm::invlogit(SORT_Logit_Score * 0.894 - 1.478) * 100), digits = 4), "%")) %>%
-      mutate(Day21 = paste0(signif((arm::invlogit(SORT_Logit_Score * 1.081 - 2.327) * 100), digits = 4), "%")) %>%
-      mutate(Day28 = paste0(signif((arm::invlogit(SORT_Logit_Score * 1.048 - 2.770) * 100), digits = 4), "%")) %>%
-      select(SORT_Logit_Score:Day28)
+      mutate(POMS_Risk = arm::invlogit(SORT_Logit_Score)) %>%
+      mutate(Low_grade = arm::invlogit(SORT_Logit_Score * 1.008 - 0.316)) %>%
+      mutate(High_grade = arm::invlogit(SORT_Logit_Score * 0.827 - 0.874)) %>%
+      mutate(Day14 = arm::invlogit(SORT_Logit_Score * 0.894 - 1.478)) %>%
+      mutate(Day21 = arm::invlogit(SORT_Logit_Score * 1.081 - 2.327)) %>%
+      mutate(Day28 = arm::invlogit(SORT_Logit_Score * 1.048 - 2.770)) %>%
+      select(SORT_Logit_Score:Day28) %>%
+      rename(`SORT Logit Score` = "SORT_Logit_Score",
+             `POMS` = "POMS_Risk",
+             `Low-grade POMS` = "Low_grade",
+             `High-grade POMS` = "High_grade",
+             `Day 14 POMS` = "Day14",
+             `Day 21 POMS` = "Day21",
+             `Day 28 POMS` = "Day28")
     
-    xtable(tab)
-  
+    datatable(tab, options = list(dom = 't')) %>% 
+      formatPercentage(digits = 2,
+                       c("POMS", 
+                         "Low-grade POMS", 
+                         "High-grade POMS", 
+                         "Day 14 POMS",
+                         "Day 21 POMS",
+                         "Day 28 POMS"))
+    
   })
   
 
