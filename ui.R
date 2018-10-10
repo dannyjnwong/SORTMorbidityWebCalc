@@ -19,7 +19,7 @@ shinyUI(fluidPage(
   p("The percentages provided by the calculator are only estimates taking into account the general risks of the procedure and some information about the patient, but should not be confused with a patient-specific estimate in an individual case. As with all risk prediction tools, not every factor which may affect outcome can be included, and there may well be other patient-specific and surgical factors which may influence the risk of death significantly. This resource is not intended to be used in isolation for clinical decision making and should not replace the advice of a healthcare professional about the potential risks or benefits of a planned procedure. The author of this calculator will not be held responsible for decisions made by healthcare professionals or patients which are based on the estimates provided by the SORT, as these estimates are provided only for the purposes of background information."),
   p("Patients should always consult a healthcare professional in decision-making about their health and treatment."),
   a(href="https://doi.org/10.1093/bja/aex117", "D. J. N. Wong, C. M. Oliver, S. R. Moonesinghe; Predicting postoperative morbidity in adult elective surgical patients using the Surgical Outcome Risk Tool (SORT). Br J Anaesth 2017; 119 (1): 95-105. doi: 10.1093/bja/aex117"),
-  p("MIT License; Copyright (c) 2017 Danny Jon Nian Wong."), 
+  p("MIT License; Copyright (c) 2017-2018 Danny Jon Nian Wong."), 
   a(href="https://github.com/dannyjnwong/SORTMorbidityWebCalc", "Source code available here on Github."),
 
   # Sidebar with inputs
