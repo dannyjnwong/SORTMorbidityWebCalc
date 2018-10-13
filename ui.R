@@ -48,13 +48,13 @@ shinyUI(fluidPage(
       
       #Age
       radioButtons("Age", "What is the patient's age?",
-                   choices = c("<65", "65-79", " >80"))
+                   choices = c("<65", "65-79", ">80"))
       
     ),
 
     # Show a table output
     mainPanel(
-      DTOutput("ProcedureTable")
+      DTOutput("POMSTable")
     )
   )
 ))
